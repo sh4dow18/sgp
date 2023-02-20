@@ -101,7 +101,7 @@ public class PDF {
         create_heading(helper, 150, 745, "Direccion: Del Super Cali 50 N 50 E, Rincon Herrera, Guacima", 8);
         create_heading(helper, 150, 730, "Alajuela (Alajuela)", 8);
         create_heading(helper, 150, 715, "Teléfono: +506 8941-4905", 8);
-        create_heading(helper, 150, 700, "Correo Electronico: sh4dowtech@gmail.com", 8);
+        create_heading(helper, 150, 700, "Correo Electronico: sh4dowtechalajuela@gmail.com", 8);
     }
     public void create_headings_about_bill_and_date(PdfContentByte helper, String code, String date) {
         create_rectangles_for_bill_and_date(helper);

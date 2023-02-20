@@ -42,12 +42,12 @@ public class SendEmail {
         Session session = Session.getDefaultInstance(properties,  new javax.mail.Authenticator() {  
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {  
-                return new PasswordAuthentication("XXXXXXXXXXXXXX", "XXXXXXXXXXXXXXXX");  
+                return new PasswordAuthentication("XXXXXXXXXXXX", "XXXXXXXXXXXXXXX");  
             }  
         });  
         try{  
           MimeMessage message = new MimeMessage(session);  
-          message.setFrom(new InternetAddress("XXXXXXXXXXXXXX"));  
+          message.setFrom(new InternetAddress("XXXXXXXXXXXXXXXX"));  
           message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));  
           message.setSubject("Message Alert");  
           BodyPart messageBodyPart1 = new MimeBodyPart();  
