@@ -42,25 +42,44 @@ public class SendEmail {
         Session session = Session.getDefaultInstance(properties,  new javax.mail.Authenticator() {  
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {  
-                return new PasswordAuthentication("XXXXXXXXXXXX", "XXXXXXXXXXXXXXX");  
+                return new PasswordAuthentication("XXXXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXXXXXX");  
             }  
         });  
-        try{  
-          MimeMessage message = new MimeMessage(session);  
-          message.setFrom(new InternetAddress("XXXXXXXXXXXXXXXX"));  
-          message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));  
-          message.setSubject("Message Alert");  
-          BodyPart messageBodyPart1 = new MimeBodyPart();  
-          messageBodyPart1.setText("This is message body");  
-          MimeBodyPart messageBodyPart2 = new MimeBodyPart();  
-          DataSource source = new FileDataSource(filename);  
-          messageBodyPart2.setDataHandler(new DataHandler(source));  
-          messageBodyPart2.setFileName(filename);  
-          Multipart multipart = new MimeMultipart();  
-          multipart.addBodyPart(messageBodyPart1);  
-          multipart.addBodyPart(messageBodyPart2);  
-          message.setContent(multipart );  
-          Transport.send(message);  
+        try {
+            String pdf_name = filename + ".pdf";
+            String xml_name = filename + ".xml";
+            String logo_file = filename + "-1_1.png";
+            String qr_code_file = filename + "-1_2.png";
+            MimeMessage message = new MimeMessage(session);  
+            message.setFrom(new InternetAddress("XXXXXXXXXXXXXXXXXX"));  
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));  
+            message.setSubject("Su Factura Electronica de Sh4dowtech");  
+            BodyPart messageBodyPart1 = new MimeBodyPart();  
+            messageBodyPart1.setText("Te adjuntamos la factura electrónica en formato PDF.\n También encontrarás adjunto el comprobante electrónico en formato XML, emitido conforme lo establecido en la resolución de Facturación Electrónica No. DGT-R-033-2019 del 20 de Junio del 2019 de la Dirección General de Tributación Directa, en versión 4.3.");  
+            MimeBodyPart messageBodyPart2 = new MimeBodyPart();  
+            MimeBodyPart messageBodyPart3 = new MimeBodyPart();  
+            MimeBodyPart messageBodyPart4 = new MimeBodyPart();  
+            MimeBodyPart messageBodyPart5 = new MimeBodyPart();  
+            DataSource source = new FileDataSource(pdf_name);
+            DataSource source_2 = new FileDataSource(xml_name);
+            DataSource source_3 = new FileDataSource(logo_file);
+            DataSource source_4 = new FileDataSource(qr_code_file);
+            messageBodyPart2.setDataHandler(new DataHandler(source));
+            messageBodyPart3.setDataHandler(new DataHandler(source_2));
+            messageBodyPart4.setDataHandler(new DataHandler(source_3));
+            messageBodyPart5.setDataHandler(new DataHandler(source_4));
+            messageBodyPart2.setFileName(pdf_name);  
+            messageBodyPart3.setFileName(xml_name);  
+            messageBodyPart4.setFileName(logo_file);  
+            messageBodyPart5.setFileName(qr_code_file);  
+            Multipart multipart = new MimeMultipart();  
+            multipart.addBodyPart(messageBodyPart1);
+            multipart.addBodyPart(messageBodyPart2);
+            multipart.addBodyPart(messageBodyPart3);
+            multipart.addBodyPart(messageBodyPart4);
+            multipart.addBodyPart(messageBodyPart5);
+            message.setContent(multipart );  
+            Transport.send(message);  
          }
         catch (MessagingException ex) {
             result = 1;

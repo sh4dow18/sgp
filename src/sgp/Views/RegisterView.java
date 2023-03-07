@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import sgp.database.Database;
 import sgp.Utilities.PDF;
 import sgp.Utilities.SendEmail;
+import sgp.Utilities.XML;
 
 public class RegisterView extends javax.swing.JFrame {
     private ArrayList<String> register;
@@ -463,13 +464,17 @@ public class RegisterView extends javax.swing.JFrame {
     }//GEN-LAST:event_see_clientActionPerformed
 
     private void send_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_send_buttonActionPerformed
-        int result = 0;
-        String to = Database.get_instance().obtain_email_from_id(Integer.parseInt(identification.getText()));
-        String filename = "Factura y Garantia de Registro " + String.format("%05d", Integer.valueOf(code.getText())) + ".pdf";
-        result = SendEmail.get_instance().sent_email(to, filename);
-        switch (result) {
-            case 0 -> JOptionPane.showMessageDialog(null, "PDF Document sent Sucessfully");
-            default -> JOptionPane.showMessageDialog(null, "PDF Document cannot be send, an Error ocurred", "Error", JOptionPane.ERROR_MESSAGE);
+        String file_name = "Factura y Garantia de Registro " + String.format("%05d", Integer.valueOf(code.getText())); 
+        if (XML.get_instance().convert_pdf_to_xml(file_name) == true) {
+            String to = Database.get_instance().obtain_email_from_id(Integer.parseInt(identification.getText()));
+            int result = SendEmail.get_instance().sent_email(to, file_name);
+            switch (result) {
+                case 0 -> JOptionPane.showMessageDialog(null, "PDF Document sent Sucessfully");
+                default -> JOptionPane.showMessageDialog(null, "PDF Document cannot be send, an Error ocurred", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "XML Document cannot be created, an Error ocurred", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_send_buttonActionPerformed
 

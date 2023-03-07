@@ -46,6 +46,7 @@ public class PDF {
             PdfContentByte helper = pdf_instance.getDirectContent();
             add_metadata(pdf, title, register);
             add_logo(pdf);
+            add_qr_code(pdf);
             create_header(helper, code_formatted, register.get(6));
             add_client_information(pdf, Database.get_instance().obtain_client(Integer.parseInt(register.get(1))),helper);
             pdf.add(create_services_table(register.get(2)));
@@ -90,6 +91,20 @@ public class PDF {
             System.err.println(ex);
         }
     }
+    public void add_qr_code(Document pdf) {
+        try {
+            Image logo = Image.getInstance("/home/sh4dow18/NetBeansProjects/SGP/images/qr_code.png");
+            logo.setAbsolutePosition(340, 700);
+            logo.scalePercent(70);
+            pdf.add(logo);
+        }
+        catch (BadElementException | IOException  ex) {
+            System.err.println(ex);
+        }
+        catch (DocumentException ex) {
+            System.err.println(ex);
+        }
+    }
     public void create_header(PdfContentByte helper, String code, String date) {
         create_headings_about_business(helper);
         create_headings_about_bill_and_date(helper, code, date);
@@ -98,8 +113,8 @@ public class PDF {
         create_heading(helper, 150, 790, "Negocio de Tecnologia \"Sh4dowtech\"", 10);
         create_heading(helper, 150, 775, "Cedula: 305350316", 8);
         create_heading(helper, 150, 760, "Dueño del Negocio: Ramses Solano Arias", 8);
-        create_heading(helper, 150, 745, "Direccion: Del Super Cali 50 N 50 E, Rincon Herrera, Guacima", 8);
-        create_heading(helper, 150, 730, "Alajuela (Alajuela)", 8);
+        create_heading(helper, 150, 745, "Direccion: Del Super Cali 50 N 50 E", 8);
+        create_heading(helper, 150, 730, "Rincon Herrera, Guacima, Alajuela (Alajuela)", 8);
         create_heading(helper, 150, 715, "Teléfono: +506 8941-4905", 8);
         create_heading(helper, 150, 700, "Correo Electronico: sh4dowtechalajuela@gmail.com", 8);
     }
@@ -276,15 +291,9 @@ public class PDF {
                 """);
         try {
             final_information.setAlignment(Element.ALIGN_CENTER);
-            Image qr_code = Image.getInstance("/home/sh4dow18/NetBeansProjects/SGP/images/qr_code.png");
-            qr_code.setAlignment(Element.ALIGN_CENTER);
             pdf.add(final_information);
-            Paragraph qr_code_line = new Paragraph("Codigo QR de la pagina oficial de Sh4dowtech");
-            qr_code_line.setAlignment(Element.ALIGN_CENTER);
-            pdf.add(qr_code_line);
-            pdf.add(qr_code);
         } 
-        catch (DocumentException | IOException ex) {
+        catch (DocumentException ex) {
             System.err.println(ex);
         }
     }
